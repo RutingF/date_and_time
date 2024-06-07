@@ -29,8 +29,19 @@ class dateProcess:
         string_output = last_day_of_previous_month.strftime(date_format)
 
         return string_output
+    
+    def generate_date_range_to_current_time(self, starting_year: int, starting_month: int, starting_date: int):
+
+        start_date = datetime(starting_year, starting_month, starting_date)
+        end_date = datetime.now()
+
+        date_list = [start_date + timedelta(days=x) for x in range((end_date - start_date).days+1)]
+        date_df = pd.DataFrame({'date': date_list})
+
+        return date_list, date_df
 
 
 d = dateProcess()
 date = d.get_string_last_day_of_previous_month("%Y-%m-%d")
-print(date)
+date_list, date_df = d.generate_date_range_to_current_time(2024, 6, 1)
+print(date_df)
